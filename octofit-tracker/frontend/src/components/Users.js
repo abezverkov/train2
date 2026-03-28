@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { fetchFromApi } from '../api';
 
+// API Endpoint: https://$REACT_APP_CODESPACE_NAME-8000.app.github.dev/api/users/
+
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
