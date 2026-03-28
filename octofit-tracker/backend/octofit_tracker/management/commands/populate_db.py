@@ -1,61 +1,139 @@
+from datetime import date
+
 from django.core.management.base import BaseCommand
-from django.conf import settings
-from pymongo import MongoClient
+
+from octofit_tracker.models import Activity, LeaderboardEntry, Team, User, Workout
 
 class Command(BaseCommand):
     help = 'Populate the octofit_db database with test data'
 
     def handle(self, *args, **options):
-        client = MongoClient('localhost', 27017)
-        db = client['octofit_db']
+        # Clear model-backed data first so repeated runs remain deterministic.
+        Team.members.through.objects.all().delete()
+        Workout.suggested_for.through.objects.all().delete()
+        LeaderboardEntry.objects.all().delete()
+        Activity.objects.all().delete()
+        Workout.objects.all().delete()
+        Team.objects.all().delete()
+        User.objects.all().delete()
 
-        # Drop collections if they exist
-        db.users.drop()
-        db.teams.drop()
-        db.activities.drop()
-        db.leaderboard.drop()
-        db.workouts.drop()
+        Team.objects.bulk_create(
+            [
+                Team(id=1, name='Team Marvel'),
+                Team(id=2, name='Team DC'),
+            ]
+        )
 
-        # Create unique index on email for users
-        db.users.create_index([('email', 1)], unique=True)
+        User.objects.create_user(
+            id=1,
+            username='spiderman',
+            email='spiderman@marvel.com',
+            password='octofit123',
+            first_name='Spider',
+            last_name='Man',
+        )
+        User.objects.create_user(
+            id=2,
+            username='ironman',
+            email='ironman@marvel.com',
+            password='octofit123',
+            first_name='Iron',
+            last_name='Man',
+        )
+        User.objects.create_user(
+            id=3,
+            username='wonderwoman',
+            email='wonderwoman@dc.com',
+            password='octofit123',
+            first_name='Wonder',
+            last_name='Woman',
+        )
+        User.objects.create_user(
+            id=4,
+            username='batman',
+            email='batman@dc.com',
+            password='octofit123',
+            first_name='Bruce',
+            last_name='Wayne',
+        )
 
-        # Teams
-        teams = [
-            {'name': 'Team Marvel'},
-            {'name': 'Team DC'}
-        ]
-        team_ids = db.teams.insert_many(teams).inserted_ids
+        Team.members.through.objects.bulk_create(
+            [
+                Team.members.through(team_id=1, user_id=1),
+                Team.members.through(team_id=1, user_id=2),
+                Team.members.through(team_id=2, user_id=3),
+                Team.members.through(team_id=2, user_id=4),
+            ]
+        )
 
-        # Users (superheroes)
-        users = [
-            {'name': 'Spider-Man', 'email': 'spiderman@marvel.com', 'team': team_ids[0]},
-            {'name': 'Iron Man', 'email': 'ironman@marvel.com', 'team': team_ids[0]},
-            {'name': 'Wonder Woman', 'email': 'wonderwoman@dc.com', 'team': team_ids[1]},
-            {'name': 'Batman', 'email': 'batman@dc.com', 'team': team_ids[1]},
-        ]
-        user_ids = db.users.insert_many(users).inserted_ids
+        Activity.objects.bulk_create(
+            [
+                Activity(
+                    id=1,
+                    user_id=1,
+                    team_id=1,
+                    type='Running',
+                    duration=30,
+                    calories=250,
+                    date=date(2026, 3, 24),
+                ),
+                Activity(
+                    id=2,
+                    user_id=2,
+                    team_id=1,
+                    type='Cycling',
+                    duration=45,
+                    calories=420,
+                    date=date(2026, 3, 25),
+                ),
+                Activity(
+                    id=3,
+                    user_id=3,
+                    team_id=2,
+                    type='Swimming',
+                    duration=60,
+                    calories=500,
+                    date=date(2026, 3, 26),
+                ),
+                Activity(
+                    id=4,
+                    user_id=4,
+                    team_id=2,
+                    type='Yoga',
+                    duration=40,
+                    calories=220,
+                    date=date(2026, 3, 27),
+                ),
+            ]
+        )
 
-        # Activities
-        activities = [
-            {'user': user_ids[0], 'activity': 'Running', 'duration': 30},
-            {'user': user_ids[1], 'activity': 'Cycling', 'duration': 45},
-            {'user': user_ids[2], 'activity': 'Swimming', 'duration': 60},
-            {'user': user_ids[3], 'activity': 'Yoga', 'duration': 40},
-        ]
-        db.activities.insert_many(activities)
+        Workout.objects.create(
+            id=1,
+            name='Cardio Blast',
+            description='Intervals alternating sprint and jog for improved endurance.',
+        )
+        Workout.objects.create(
+            id=2,
+            name='Strength Builder',
+            description='Compound movements focused on progressive overload.',
+        )
 
-        # Workouts
-        workouts = [
-            {'name': 'Cardio Blast', 'suggested_for': 'Team Marvel'},
-            {'name': 'Strength Builder', 'suggested_for': 'Team DC'}
-        ]
-        db.workouts.insert_many(workouts)
+        Workout.suggested_for.through.objects.bulk_create(
+            [
+                Workout.suggested_for.through(workout_id=1, user_id=1),
+                Workout.suggested_for.through(workout_id=1, user_id=2),
+                Workout.suggested_for.through(workout_id=2, user_id=3),
+                Workout.suggested_for.through(workout_id=2, user_id=4),
+            ]
+        )
 
-        # Leaderboard
-        leaderboard = [
-            {'team': 'Team Marvel', 'points': 150},
-            {'team': 'Team DC', 'points': 120}
-        ]
-        db.leaderboard.insert_many(leaderboard)
+        LeaderboardEntry.objects.bulk_create(
+            [
+                LeaderboardEntry(id=1, user_id=1, team_id=1, score=190, rank=1),
+                LeaderboardEntry(id=2, user_id=3, team_id=2, score=175, rank=2),
+                LeaderboardEntry(id=3, user_id=2, team_id=1, score=160, rank=3),
+                LeaderboardEntry(id=4, user_id=4, team_id=2, score=140, rank=4),
+            ]
+        )
 
-        self.stdout.write(self.style.SUCCESS('octofit_db database populated with test data.'))
+        self.stdout.write(self.style.SUCCESS('octofit_db database populated with ORM test data.'))

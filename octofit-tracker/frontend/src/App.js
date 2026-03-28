@@ -12,10 +12,15 @@ function App() {
     <Router>
       <div className="App">
         {/* Navigation Menu */}
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-dark custom-nav">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">
-              OctoFit Tracker
+              <img
+                src={`${process.env.PUBLIC_URL}/octofitapp-small.png`}
+                alt="OctoFit logo"
+                className="brand-logo"
+              />
+              <span>OctoFit Tracker</span>
             </Link>
             <button
               className="navbar-toggler"
@@ -79,7 +84,7 @@ function App() {
 function Home() {
   return (
     <div className="text-center py-5">
-      <div className="card border-0 shadow-lg p-5" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+      <div className="card border-0 shadow-lg p-5 home-hero">
         <h1 className="display-3 text-white mb-4 fw-bold">Welcome to OctoFit Tracker</h1>
         <p className="lead text-white mb-3">Track your fitness activities and compete with your team!</p>
         <p className="text-white-50">Use the navigation menu above to get started.</p>

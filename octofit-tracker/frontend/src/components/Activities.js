@@ -65,12 +65,12 @@ const Activities = () => {
               {activities.map((activity) => (
                 <tr key={activity.id}>
                   <td><span className="badge bg-info">{activity.id}</span></td>
-                  <td className="fw-500">{activity.user || 'N/A'}</td>
+                  <td className="fw-500">{activity.user ? activity.user.username : 'N/A'}</td>
                   <td><span className="badge bg-success">{activity.type || 'N/A'}</span></td>
                   <td>{activity.duration || 'N/A'} min</td>
                   <td><strong>{activity.calories || 'N/A'}</strong> kcal</td>
                   <td><small className="text-muted">{activity.date ? new Date(activity.date).toLocaleDateString() : 'N/A'}</small></td>
-                  <td><span className="badge bg-warning">{activity.team || 'N/A'}</span></td>
+                  <td><span className="badge bg-warning">{activity.team ? activity.team.name : 'N/A'}</span></td>
                 </tr>
               ))}
             </tbody>

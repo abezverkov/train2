@@ -71,9 +71,9 @@ const Leaderboard = () => {
                       {entry.rank > 3 && `#${entry.rank}`}
                     </span>
                   </td>
-                  <td className="fw-500">{entry.user || 'N/A'}</td>
+                  <td className="fw-500">{entry.user ? entry.user.username : 'N/A'}</td>
                   <td><strong className="fs-5">{entry.score || 0}</strong></td>
-                  <td><span className="badge bg-info">{entry.team || 'N/A'}</span></td>
+                  <td><span className="badge bg-info">{entry.team ? entry.team.name : 'N/A'}</span></td>
                 </tr>
               ))}
             </tbody>
