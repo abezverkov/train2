@@ -1,0 +1,140 @@
+/* Global Styling */
+.App {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* Navigation */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+/* Section Headings */
+.section-title {
+  color: #2c3e50;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #007bff;
+  display: inline-block;
+}
+
+/* Tables */
+.table {
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.table thead th {
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  border: none;
+  padding: 1rem 0.75rem;
+}
+
+.table tbody tr {
+  transition: background-color 0.15s ease-in-out;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+.table-responsive {
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+/* Cards */
+.card {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 0.5rem;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Alerts */
+.alert {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+/* Buttons */
+.btn {
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.25rem;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Loading Spinner */
+.spinner-border {
+  color: #007bff;
+}
+
+/* Container Padding */
+.container {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+/* Responsive Text */
+@media (max-width: 576px) {
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .table {
+    font-size: 0.875rem;
+  }
+}
